@@ -5,11 +5,11 @@
  *
  * @section intro_sec Introduction
  *
- * This is the documentation for the SignatureRow Library for the Arduino platform.
- * Because of the independence of Arduino libraries, it could be theoretically
- * used for every C/C++ program.
- * It gives easy access to the signature row of AVR microcontrollers. The library contains functions that provides
- * the information of the signature bytes.
+ * This is the documentation for the SignatureRow Library for the Arduino
+ * platform. Because of the independence of Arduino libraries, it could be
+ * theoretically used for every C/C++ program. It gives easy access to the
+ * signature row of AVR microcontrollers. The library contains functions that
+ * provides the information of the signature bytes.
  *
  *
  * @section author Author
@@ -50,78 +50,80 @@
  */
 class SignatureRow {
 private:
-    /** structure of signature */
-    typedef struct {
-        uint8_t sig1, sig2, sig3;/// The bytes of the signature.
-    } Signature;
+  /** structure of signature */
+  typedef struct {
+    uint8_t sig1, sig2, sig3; /// The bytes of the signature.
+  } Signature;
 
-    static Signature signature;            /// Signature of AVR microcontroller.
-    static uint8_t rcOscillatorCalibration;/// Factory calibration value of the internal RC oscillator.
-    static bool INIT_STATUS;               /// Indicating if the class is initialized.
+  static Signature signature;             /// Signature of AVR microcontroller.
+  static uint8_t rcOscillatorCalibration; /// Factory calibration value of the
+                                          /// internal RC oscillator.
+  static bool INIT_STATUS; /// Indicating if the class is initialized.
 
+  /*!
+   * @brief   Initialise the class.
+   */
+  static void INIT() __attribute__((__gnu_inline__));
+
+  /*!
+   * @brief Get the signature as a string.
+   *
+   * @return    A string of the signature formatted as a hex value (with leading
+   *            '0x').
+   */
+  static String getSignatureString();
+
+  /*!
+   * @brief Internal class holding methods for the chip.
+   */
+  class Chip {
+  public:
     /*!
-     * @brief   Initialise the class.
-     */
-    static void INIT() __attribute__((__gnu_inline__));
-
-    /*!
-     * @brief   Get the signature as a string.
+     * @brief   Get the name of the chip by the signature.
      *
-     * @return  A string of the signature formatted as a hex value (with leading '0x').
+     * @param sig1  Byte 1 of the signature.
+     * @param sig2  Byte 2 of the signature.
+     * @param sig3  Byte 3 of the signature.
+     * @return  The name of the chip.
      */
-    static String getSignatureString();
-
-    /*!
-     * @brief   Internal class holding methods for the chip.
-     */
-    class Chip {
-    public:
-        /*!
-         * @brief   Get the name of the chip by the signature.
-         *
-         * @param sig1  Byte 1 of the signature.
-         * @param sig2  Byte 2 of the signature.
-         * @param sig3  Byte 3 of the signature.
-         * @return      The name of the chip.
-         */
-        static String getChipName(uint8_t sig1, uint8_t sig2, uint8_t sig3);
-    };
+    static String getChipName(uint8_t sig1, uint8_t sig2, uint8_t sig3);
+  };
 
 public:
-    /*!
-     * @brief   Get the signature as a string.
-     * @see     getSignatureString()
-     */
-    static String getSignature() {
-        INIT();
-        return getSignatureString();
-    }
+  /*!
+   * @brief Get the signature as a string.
+   * @see   getSignatureString()
+   */
+  static String getSignature() {
+    INIT();
+    return getSignatureString();
+  }
 
-    /*!
-     * @brief   Get the name of the chip.
-     *
-     * @return  Name as a string.
-     */
-    static String getChipName();
+  /*!
+   * @brief Get the name of the chip.
+   *
+   * @return    Name as a string.
+   */
+  static String getChipName();
 
+  /*!
+   * @brief Get the factory calibration the the internal RC oscillator.
+   *
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getRcOscillatorCalibration() {
+    INIT();
+    return rcOscillatorCalibration;
+  }
 
-    /*!
-     * @brief   Get the factory calibration the the internal RC oscillator.
-     *
-     * @return  Calibration value as an unsigned char.
-     */
-    static uint8_t getRcOscillatorCalibration() {
-        INIT();
-        return rcOscillatorCalibration;
-    }
-
-    /*!
-     * @brief   Writing a summary of the signature row of the chip into a string. Usefully for giving information about
-     *          the used microcontroller for debugging or logging intents.
-     *
-     * @return  A string containing a summary of the signature row.
-     */
-    static String getSummary();
+  /*!
+   * @brief Writing a summary of the signature row of the chip into a string.
+   *        Usefully for giving information about the used microcontroller for
+   *        debugging or logging intents.
+   *
+   * @return    A string containing a summary of the signature row.
+   */
+  static String getSummary();
 };
 
-#endif// SIGNATURE_ROW_SIGNATURE_ROW_HPP
+#endif // SIGNATURE_ROW_SIGNATURE_ROW_HPP
