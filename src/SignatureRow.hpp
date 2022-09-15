@@ -40,8 +40,8 @@
  * USA
  */
 
-#ifndef ARDUINOSIGNATUREROW_SIGNATUREROW_HPP
-#define ARDUINOSIGNATUREROW_SIGNATUREROW_HPP
+#ifndef SIGNATURE_ROW_SIGNATURE_ROW_HPP
+#define SIGNATURE_ROW_SIGNATURE_ROW_HPP
 
 #include <Print.h>
 
@@ -50,22 +50,19 @@
  */
 class SignatureRow {
 private:
-
     /** structure of signature */
     typedef struct {
-        uint8_t sig1, sig2, sig3;           /// The bytes of the signature.
+        uint8_t sig1, sig2, sig3;/// The bytes of the signature.
     } Signature;
 
-    static Signature signature;             /// Signature of AVR microcontroller.
-    static uint8_t rcOscillatorCalibration; /// Factory calibration value of the internal RC oscillator.
-    static bool INIT_STATUS;                /// Indicating if the class is initialized.
+    static Signature signature;            /// Signature of AVR microcontroller.
+    static uint8_t rcOscillatorCalibration;/// Factory calibration value of the internal RC oscillator.
+    static bool INIT_STATUS;               /// Indicating if the class is initialized.
 
     /*!
      * @brief   Initialise the class.
      */
-    static void INIT()
-
-    __ATTR_GNU_INLINE__;
+    static void INIT() __attribute__((__gnu_inline__));
 
     /*!
      * @brief   Get the signature as a string.
@@ -79,7 +76,6 @@ private:
      */
     class Chip {
     public:
-
         /*!
          * @brief   Get the name of the chip by the signature.
          *
@@ -128,4 +124,4 @@ public:
     static String getSummary();
 };
 
-#endif //ARDUINOSIGNATUREROW_SIGNATUREROW_HPP
+#endif// SIGNATURE_ROW_SIGNATURE_ROW_HPP
