@@ -1,0 +1,18 @@
+###########################################
+# Syntax Coloring Map For List
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+SignatureRow	KEYWORD1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+getSignature	KEYWORD2
+getChipName	KEYWORD2
+getRcOscillatorCalibration	KEYWORD2
+getSummary	KEYWORD2
