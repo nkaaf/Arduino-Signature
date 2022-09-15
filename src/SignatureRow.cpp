@@ -31,6 +31,22 @@ SignatureRow::Signature SignatureRow::signature = {};
 uint8_t SignatureRow::rcOscillatorCalibration = 0;
 bool SignatureRow::INIT_STATUS = false;
 
+/*!
+ * @def DEVICE_SIG_BYTE_1
+ * @brief Address of first signature byte
+ */
+/*!
+ * @def DEVICE_SIG_BYTE_2
+ * @brief Address of second signature byte
+ */
+/*!
+ * @def DEVICE_SIG_BYTE_3
+ * @brief Address of third signature byte
+ */
+/*!
+ * @def RC_OSCILLATOR_CALIBRATION_BYTE
+ * @brief Address of RC oscillator calibration byte
+ */
 void SignatureRow::INIT() {
 #define DEVICE_SIG_BYTE_1 0x0000
 #define DEVICE_SIG_BYTE_2 0x0002

@@ -92,7 +92,9 @@ private:
 public:
   /*!
    * @brief Get the signature as a string.
-   * @see   getSignatureString()
+   *
+   * @return    A string of the signature formatted as a hex value (with leading
+   *            '0x').
    */
   static String getSignature() {
     INIT();
