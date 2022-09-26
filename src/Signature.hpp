@@ -8,7 +8,7 @@
  * This is the documentation for the Signature Library for the Arduino
  * platform. Because of the independence of Arduino libraries, it could be
  * theoretically used for every C/C++ program. It gives easy access to the
- * signature row of AVR microcontrollers. The library contains functions that
+ * signature of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
  *
@@ -46,7 +46,7 @@
 #include <Print.h>
 
 /*!
- * @brief   Class representing the signature row of the microcontroller.
+ * @brief   Class representing the signature of the microcontroller.
  */
 class Signature {
 private:
@@ -119,11 +119,11 @@ public:
   }
 
   /*!
-   * @brief Writing a summary of the signature row of the chip into a string.
+   * @brief Writing a summary of the signature of the chip into a string.
    *        Usefully for giving information about the used microcontroller for
    *        debugging or logging intents.
    *
-   * @return    A string containing a summary of the signature row.
+   * @return    A string containing a summary of the signature.
    */
   static String getSummary();
 };

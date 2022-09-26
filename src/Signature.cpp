@@ -2,7 +2,7 @@
  * @file Signature.cpp
  *
  * This file is part of the Signature library. It gives easy access to the
- * signature row of AVR microcontrollers. The library contains functions that
+ * signature of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
  * Copyright (C) 2022  Niklas Kaaf

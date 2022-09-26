@@ -3,7 +3,7 @@
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/nkaaf/library/Signature.svg)](https://registry.platformio.org/libraries/nkaaf/Signature)
 [![arduino-library-badge](https://www.ardu-badge.com/badge/Signature.svg)](https://www.ardu-badge.com/Signature)
 
-Library for processing the signature row of AVR microcontrollers.
+Library for processing the signature of AVR microcontrollers.
 
 Documentation: [https://nkaaf.github.io/Arduino-Signature/](https://nkaaf.github.io/Arduino-Signature/)
 
