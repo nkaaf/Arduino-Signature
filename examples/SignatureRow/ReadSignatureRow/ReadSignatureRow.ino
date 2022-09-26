@@ -1,4 +1,4 @@
-#include <SignatureRow.hpp>
+#include <Signature.hpp>
 
 void setup() {
     Serial.begin(9600);
@@ -8,22 +8,22 @@ void setup() {
 
     // Prints out the signature of the chip in HEX format (with leading '0x')
     Serial.print("Signature: ");
-    Serial.println(SignatureRow::getSignature());
+    Serial.println(Signature::getSignature());
     // You can also print out the type of the chip. This is internally processed by the signature. For example the
     // ATmega328P has the signature 0x1E950F (according to the datasheet).
     Serial.print("Chip Name: ");
-    Serial.println(SignatureRow::getChipName());
+    Serial.println(Signature::getChipName());
 
-    // In the SignatureRow of the microcontrollers are also values which can be used for calibrating internal processes
+    // In the Signature of the microcontrollers are also values which can be used for calibrating internal processes
     // of the chip. For example for calibration the Internal RC Oscillator by software, you can use this value
     Serial.print("RC Oscillator Calibration: ");
-    Serial.print(SignatureRow::getRcOscillatorCalibration()); // Prints the value as a decimal value
+    Serial.print(Signature::getRcOscillatorCalibration()); // Prints the value as a decimal value
     Serial.print(" (decimal); ");
-    Serial.print(SignatureRow::getRcOscillatorCalibration(), HEX); // Prints the value as a hex value
+    Serial.print(Signature::getRcOscillatorCalibration(), HEX); // Prints the value as a hex value
     Serial.println(" (hex)");
 
-    // To get a summary of your chip and the SignatureRow, you can use the getSummary() method
-    Serial.println(SignatureRow::getSummary());
+    // To get a summary of your chip and the Signature, you can use the getSummary() method
+    Serial.println(Signature::getSummary());
 }
 
 void loop() {}

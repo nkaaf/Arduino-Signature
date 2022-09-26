@@ -1,11 +1,11 @@
 /*!
- * @file SignatureRow.hpp
+ * @file Signature.hpp
  *
  * @mainpage
  *
  * @section intro_sec Introduction
  *
- * This is the documentation for the SignatureRow Library for the Arduino
+ * This is the documentation for the Signature Library for the Arduino
  * platform. Because of the independence of Arduino libraries, it could be
  * theoretically used for every C/C++ program. It gives easy access to the
  * signature row of AVR microcontrollers. The library contains functions that
@@ -20,7 +20,7 @@
  *
  * @section license License
  *
- * This file is part of the SignatureRow library.
+ * This file is part of the Signature library.
  *
  * Copyright (C) 2022  Niklas Kaaf
  *
@@ -48,14 +48,14 @@
 /*!
  * @brief   Class representing the signature row of the microcontroller.
  */
-class SignatureRow {
+class Signature {
 private:
   /** structure of signature */
   typedef struct {
     uint8_t sig1, sig2, sig3; /// The bytes of the signature.
-  } Signature;
+  } signature_t;
 
-  static Signature signature;             /// Signature of AVR microcontroller.
+  static signature_t signature;           /// Signature of AVR microcontroller.
   static uint8_t rcOscillatorCalibration; /// Factory calibration value of the
                                           /// internal RC oscillator.
   static bool INIT_STATUS; /// Indicating if the class is initialized.

@@ -1,7 +1,7 @@
 /*!
- * @file SignatureRow.cpp
+ * @file Signature.cpp
  *
- * This file is part of the SignatureRow library. It gives easy access to the
+ * This file is part of the Signature library. It gives easy access to the
  * signature row of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
@@ -23,13 +23,13 @@
  * USA
  */
 
-#include "SignatureRow.hpp"
+#include "Signature.hpp"
 
 #include <avr/boot.h>
 
-SignatureRow::Signature SignatureRow::signature = {};
-uint8_t SignatureRow::rcOscillatorCalibration = 0;
-bool SignatureRow::INIT_STATUS = false;
+Signature::signature_t signature_t::signature = {};
+uint8_t Signature::rcOscillatorCalibration = 0;
+bool Signature::INIT_STATUS = false;
 
 /*!
  * @def DEVICE_SIG_BYTE_1
@@ -47,7 +47,7 @@ bool SignatureRow::INIT_STATUS = false;
  * @def RC_OSCILLATOR_CALIBRATION_BYTE
  * @brief Address of RC oscillator calibration byte
  */
-void SignatureRow::INIT() {
+void Signature::INIT() {
 #define DEVICE_SIG_BYTE_1 0x0000
 #define DEVICE_SIG_BYTE_2 0x0002
 #define DEVICE_SIG_BYTE_3 0x0004
@@ -71,7 +71,7 @@ void SignatureRow::INIT() {
 #undef DEVICE_SIG_BYTE_1
 }
 
-String SignatureRow::getSignatureString() {
+String Signature::getSignatureString() {
   String sigStr = F("0x");
   sigStr += String(signature.sig1, HEX);
   sigStr += String(signature.sig2, HEX);
@@ -79,11 +79,11 @@ String SignatureRow::getSignatureString() {
   return sigStr;
 }
 
-String SignatureRow::getChipName() {
+String Signature::getChipName() {
   return Chip::getChipName(signature.sig1, signature.sig2, signature.sig3);
 }
 
-String SignatureRow::getSummary() {
+String Signature::getSummary() {
   INIT();
 
   String summary = F("Signature Information:\n");
@@ -97,8 +97,7 @@ String SignatureRow::getSummary() {
   return summary;
 }
 
-String SignatureRow::Chip::getChipName(uint8_t sig1, uint8_t sig2,
-                                       uint8_t sig3) {
+String Signature::Chip::getChipName(uint8_t sig1, uint8_t sig2, uint8_t sig3) {
   if (sig1 == 0x1E) {
     if (sig2 == 0x92) {
       if (sig3 == 0x05) {

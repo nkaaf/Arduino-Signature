@@ -6,7 +6,7 @@
 # Datatypes (KEYWORD1)
 ###########################################
 
-SignatureRow	KEYWORD1
+Signature	KEYWORD1
 
 ###########################################
 # Methods and Functions (KEYWORD2)
