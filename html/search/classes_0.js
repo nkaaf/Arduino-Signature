@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['signaturerow',['SignatureRow',['../class_signature_row.html',1,'']]]
+  ['signature',['Signature',['../class_signature.html',1,'']]]
 ];
