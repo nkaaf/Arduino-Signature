@@ -27,7 +27,7 @@
 
 #include <avr/boot.h>
 
-Signature::signature_t signature_t::signature = {};
+Signature::signature_t Signature::signature = {};
 uint8_t Signature::rcOscillatorCalibration = 0;
 bool Signature::INIT_STATUS = false;
 
