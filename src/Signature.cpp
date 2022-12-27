@@ -49,15 +49,15 @@ void Signature::INIT() {
 #define DEVICE_SIG_BYTE_2 0x02
 #define DEVICE_SIG_BYTE_3 0x04
 
-    if (!INIT_STATUS) {
-        Features::INIT();
+  if (!INIT_STATUS) {
+    Features::INIT();
 
-        signature.sig1 = boot_signature_byte_get(DEVICE_SIG_BYTE_1);
-        signature.sig2 = boot_signature_byte_get(DEVICE_SIG_BYTE_2);
-        signature.sig3 = boot_signature_byte_get(DEVICE_SIG_BYTE_3);
+    signature.sig1 = boot_signature_byte_get(DEVICE_SIG_BYTE_1);
+    signature.sig2 = boot_signature_byte_get(DEVICE_SIG_BYTE_2);
+    signature.sig3 = boot_signature_byte_get(DEVICE_SIG_BYTE_3);
 
-        INIT_STATUS = true;
-    }
+    INIT_STATUS = true;
+  }
 
 #undef DEVICE_SIG_BYTE_3
 #undef DEVICE_SIG_BYTE_2
@@ -65,61 +65,61 @@ void Signature::INIT() {
 }
 
 String Signature::getSignatureString() {
-    String sigStr = F("0x");
+  String sigStr = F("0x");
 
-    if (signature.sig1 < 16) {
-        sigStr += F("0");
-    }
-    sigStr += String(signature.sig1, HEX);
+  if (signature.sig1 < 16) {
+    sigStr += F("0");
+  }
+  sigStr += String(signature.sig1, HEX);
 
-    if (signature.sig2 < 16) {
-        sigStr += F("0");
-    }
-    sigStr += String(signature.sig2, HEX);
+  if (signature.sig2 < 16) {
+    sigStr += F("0");
+  }
+  sigStr += String(signature.sig2, HEX);
 
-    if (signature.sig3 < 16) {
-        sigStr += F("0");
-    }
-    sigStr += String(signature.sig3, HEX);
-    return sigStr;
+  if (signature.sig3 < 16) {
+    sigStr += F("0");
+  }
+  sigStr += String(signature.sig3, HEX);
+  return sigStr;
 }
 
 String Signature::getSummary() {
-    INIT();
+  INIT();
 
-    String summary = F("Signature Information:\n");
-    summary += F("\tBoard: ");
-    summary += getChipName();
-    summary += F(" (");
-    summary += getSignatureString();
-    summary += F(")");
-    summary += Features::getSummary();
-    return summary;
+  String summary = F("Signature Information:\n");
+  summary += F("\tBoard: ");
+  summary += getChipName();
+  summary += F(" (");
+  summary += getSignatureString();
+  summary += F(")");
+  summary += Features::getSummary();
+  return summary;
 }
 
 String Signature::getChipName() {
-    return
+  return
 #if defined(__AVR_ATmega48A__)
-            F("ATmega48A")
+      F("ATmega48A")
 #elif defined(__AVR_ATmega48PA__)
-            F("ATmega48PA")
+      F("ATmega48PA")
 #elif defined(__AVR_ATmega88A__)
-            F("ATmega88A")
+      F("ATmega88A")
 #elif defined(__AVR_ATmega88PA__)
-            F("ATmega88PA")
+      F("ATmega88PA")
 #elif defined(__AVR_ATmega168A__)
-            F("Atmega168A")
+      F("Atmega168A")
 #elif defined(__AVR_ATmega168PA__)
-            F("Atmega168PA")
+      F("Atmega168PA")
 #elif defined(__AVR_ATmega328__)
-            F("Atmega328")
+      F("Atmega328")
 #elif defined(__AVR_ATmega328P__)
-            F("Atmega328P")
+      F("Atmega328P")
 #elif defined(__AVR_ATmega328PB__)
-            F("Atmega328PB")
+      F("Atmega328PB")
 #elif defined(__AVR_ATtiny828__)
 #else
-            F("UNKNOWN")
+      F("UNKNOWN")
 #endif
-            ;
+          ;
 }
