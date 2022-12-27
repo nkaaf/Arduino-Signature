@@ -1,3 +1,28 @@
+/*!
+ * @file Features.hpp
+ *
+ * This file is part of the Signature library. It gives easy access to the
+ * signature of AVR microcontrollers. The library contains functions that
+ * provides the information of the signature bytes.
+ *
+ * Copyright (C) 2022  Niklas Kaaf
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+
 #ifndef SIGNATURE_FEATURES_H
 #define SIGNATURE_FEATURES_H
 
@@ -45,6 +70,13 @@
 #define FEATURE_TEMPERATURE_SENSOR_OFFSET_CALIBRATION
 #endif
 
+/*!
+ * @brief   Class representing additional information stored in the signature of
+ * the microcontroller
+ *
+ * @note    This should mainly not be used in user code, only in this library
+ * implementation
+ */
 class Features {
 private:
 #ifdef FEATURE_RC_OSCILLATOR_CALIBRATION
@@ -85,6 +117,9 @@ private:
                                                      /// (offset)
 #endif
 public:
+  /*!
+   * @brief Initialise the class
+   */
   static void INIT();
 
 #ifdef FEATURE_RC_OSCILLATOR_CALIBRATION
@@ -136,6 +171,12 @@ public:
   }
 #endif
 
+  /*!
+   * @brief Writing a summary of the additional information stored in the
+   *        signature of the microcontroller.
+   *
+   * @return    A string containing a summary of the additional information.
+   */
   static String getSummary();
 };
 

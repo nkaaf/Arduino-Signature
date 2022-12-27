@@ -62,7 +62,7 @@ private:
   static bool INIT_STATUS; /// Indicating if the class is initialized.
 
   /*!
-   * @brief   Initialise the class.
+   * @brief Initialise the class.
    */
   static void INIT();
 
