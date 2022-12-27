@@ -27,8 +27,9 @@
 
 #include <avr/boot.h>
 
+#include <Print.h>
+
 Signature::signature_t Signature::signature = {};
-uint8_t Signature::rcOscillatorCalibration = 0;
 bool Signature::INIT_STATUS = false;
 
 /*!
@@ -43,29 +44,21 @@ bool Signature::INIT_STATUS = false;
  * @def DEVICE_SIG_BYTE_3
  * @brief Address of third signature byte
  */
-/*!
- * @def RC_OSCILLATOR_CALIBRATION_BYTE
- * @brief Address of RC oscillator calibration byte
- */
 void Signature::INIT() {
-#define DEVICE_SIG_BYTE_1 0x0000
-#define DEVICE_SIG_BYTE_2 0x0002
-#define DEVICE_SIG_BYTE_3 0x0004
-
-#define RC_OSCILLATOR_CALIBRATION_BYTE 0x0001
+#define DEVICE_SIG_BYTE_1 0x00
+#define DEVICE_SIG_BYTE_2 0x02
+#define DEVICE_SIG_BYTE_3 0x04
 
   if (!INIT_STATUS) {
+    Features::INIT();
+
     signature.sig1 = boot_signature_byte_get(DEVICE_SIG_BYTE_1);
     signature.sig2 = boot_signature_byte_get(DEVICE_SIG_BYTE_2);
     signature.sig3 = boot_signature_byte_get(DEVICE_SIG_BYTE_3);
 
-    rcOscillatorCalibration =
-        boot_signature_byte_get(RC_OSCILLATOR_CALIBRATION_BYTE);
-
     INIT_STATUS = true;
   }
 
-#undef RC_OSCILLATOR_CALIBRATION_BYTE
 #undef DEVICE_SIG_BYTE_3
 #undef DEVICE_SIG_BYTE_2
 #undef DEVICE_SIG_BYTE_1
@@ -73,14 +66,22 @@ void Signature::INIT() {
 
 String Signature::getSignatureString() {
   String sigStr = F("0x");
+
+  if (signature.sig1 < 16) {
+    sigStr += F("0");
+  }
   sigStr += String(signature.sig1, HEX);
+
+  if (signature.sig2 < 16) {
+    sigStr += F("0");
+  }
   sigStr += String(signature.sig2, HEX);
+
+  if (signature.sig3 < 16) {
+    sigStr += F("0");
+  }
   sigStr += String(signature.sig3, HEX);
   return sigStr;
-}
-
-String Signature::getChipName() {
-  return Chip::getChipName(signature.sig1, signature.sig2, signature.sig3);
 }
 
 String Signature::getSummary() {
@@ -91,39 +92,34 @@ String Signature::getSummary() {
   summary += getChipName();
   summary += F(" (");
   summary += getSignatureString();
-  summary += F(")\n");
-  summary += F("\tRC Oscillator Calibration: 0x");
-  summary += String(rcOscillatorCalibration, HEX);
+  summary += F(")");
+  summary += Features::getSummary();
   return summary;
 }
 
-String Signature::Chip::getChipName(uint8_t sig1, uint8_t sig2, uint8_t sig3) {
-  if (sig1 == 0x1E) {
-    if (sig2 == 0x92) {
-      if (sig3 == 0x05) {
-        return "ATmega48A";
-      } else if (sig3 == 0x0A) {
-        return "ATmega48PA";
-      }
-    } else if (sig2 == 0x93) {
-      if (sig3 == 0x0A) {
-        return "ATmega88A";
-      } else if (sig3 == 0x0F) {
-        return "ATmega88PA";
-      }
-    } else if (sig2 == 0x94) {
-      if (sig3 == 0x06) {
-        return "ATmega168A";
-      } else if (sig3 == 0x0B) {
-        return "ATmega168PA";
-      }
-    } else if (sig2 == 0x95) {
-      if (sig3 == 0x14) {
-        return "ATmega328";
-      } else if (sig3 == 0x0F) {
-        return "ATmega328P";
-      }
-    }
-  }
-  return "UNKNOWN";
+String Signature::getChipName() {
+  return
+#if defined(__AVR_ATmega48A__)
+      F("ATmega48A")
+#elif defined(__AVR_ATmega48PA__)
+      F("ATmega48PA")
+#elif defined(__AVR_ATmega88A__)
+      F("ATmega88A")
+#elif defined(__AVR_ATmega88PA__)
+      F("ATmega88PA")
+#elif defined(__AVR_ATmega168A__)
+      F("Atmega168A")
+#elif defined(__AVR_ATmega168PA__)
+      F("Atmega168PA")
+#elif defined(__AVR_ATmega328__)
+      F("Atmega328")
+#elif defined(__AVR_ATmega328P__)
+      F("Atmega328P")
+#elif defined(__AVR_ATmega328PB__)
+      F("Atmega328PB")
+#elif defined(__AVR_ATtiny828__)
+#else
+      F("UNKNOWN")
+#endif
+          ;
 }

@@ -14,6 +14,10 @@ void setup() {
     Serial.print("Chip Name: ");
     Serial.println(Signature::getChipName());
 
+#if defined(__AVR_ATmega48A__) || defined(__AVR_ATmega48PA__) ||       \
+        defined(__AVR_ATmega88A__) || defined(__AVR_ATmega88PA__) ||   \
+        defined(__AVR_ATmega168A__) || defined(__AVR_ATmega168PA__) || \
+        defined(__AVR_ATmega328__) || defined(__AVR_ATmega328P__)
     // In the Signature of the microcontrollers are also values which can be used for calibrating internal processes
     // of the chip. For example for calibration the Internal RC Oscillator by software, you can use this value
     Serial.print("RC Oscillator Calibration: ");
@@ -21,6 +25,7 @@ void setup() {
     Serial.print(" (decimal); ");
     Serial.print(Signature::getRcOscillatorCalibration(), HEX); // Prints the value as a hex value
     Serial.println(" (hex)");
+#endif
 
     // To get a summary of your chip and the Signature, you can use the getSummary() method
     Serial.println(Signature::getSummary());

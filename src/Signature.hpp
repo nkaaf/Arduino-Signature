@@ -40,10 +40,12 @@
  * USA
  */
 
-#ifndef SIGNATURE_ROW_SIGNATURE_ROW_HPP
-#define SIGNATURE_ROW_SIGNATURE_ROW_HPP
+#ifndef SIGNATURE_SIGNATURE_HPP
+#define SIGNATURE_SIGNATURE_HPP
 
-#include <Print.h>
+#include "Features.hpp"
+
+#include <WString.h>
 
 /*!
  * @brief   Class representing the signature of the microcontroller.
@@ -55,15 +57,14 @@ private:
     uint8_t sig1, sig2, sig3; /// The bytes of the signature.
   } signature_t;
 
-  static signature_t signature;           /// Signature of AVR microcontroller.
-  static uint8_t rcOscillatorCalibration; /// Factory calibration value of the
-                                          /// internal RC oscillator.
+  static signature_t signature; /// Signature of AVR microcontroller.
+
   static bool INIT_STATUS; /// Indicating if the class is initialized.
 
   /*!
-   * @brief   Initialise the class.
+   * @brief Initialise the class.
    */
-  static void INIT() __attribute__((__gnu_inline__));
+  static void INIT();
 
   /*!
    * @brief Get the signature as a string.
@@ -72,22 +73,6 @@ private:
    *            '0x').
    */
   static String getSignatureString();
-
-  /*!
-   * @brief Internal class holding methods for the chip.
-   */
-  class Chip {
-  public:
-    /*!
-     * @brief   Get the name of the chip by the signature.
-     *
-     * @param sig1  Byte 1 of the signature.
-     * @param sig2  Byte 2 of the signature.
-     * @param sig3  Byte 3 of the signature.
-     * @return  The name of the chip.
-     */
-    static String getChipName(uint8_t sig1, uint8_t sig2, uint8_t sig3);
-  };
 
 public:
   /*!
@@ -108,15 +93,92 @@ public:
    */
   static String getChipName();
 
+#ifdef FEATURE_RC_OSCILLATOR_CALIBRATION
   /*!
-   * @brief Get the factory calibration the the internal RC oscillator.
+   * @brief Get the factory calibration of the internal RC oscillator (OSCCAL).
    *
    * @return    Calibration value as an unsigned char.
    */
   static uint8_t getRcOscillatorCalibration() {
     INIT();
-    return rcOscillatorCalibration;
+    return Features::getRcOscillatorCalibration();
   }
+#endif
+
+#ifdef FEATURE_INTERNAL_8MHZ_OSCILLATOR_CALIBRATION
+  /*!
+   * @brief Get the factory calibration of the internal 8MHz oscillator
+   *        (OSCCAL0).
+   *
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getInternal8MHzOscillatorCalibration() {
+    INIT();
+    return Features::getInternal8MHzOscillatorCalibration();
+  }
+#endif
+
+#ifdef FEATURE_OSCILLATOR_TEMPERATURE_CALIBRATION_A
+  /*!
+   * @brief Get the factory calibration of the Oscillator Temperature
+   *        Calibration Register A (OSCTCAL0A).
+   *
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getOscillatorTemperatureCalibrationA() {
+    INIT();
+    return Features::getOscillatorTemperatureCalibrationA();
+  }
+#endif
+
+#ifdef FEATURE_OSCILLATOR_TEMPERATURE_CALIBRATION_B
+  /*!
+   * @brief Get the factory calibration of the Oscillator Temperature
+   *        Calibration Register B (OSCTCAL0B).
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getOscillatorTemperatureCalibrationB() {
+    INIT();
+    return Features::getOscillatorTemperatureCalibrationB();
+  }
+#endif
+
+#ifdef FEATURE_INTERNAL_32KHZ_OSCILLATOR_CALIBRATION
+  /*!
+   * @brief Get the factory calibration of the internal 32kHz oscillator
+   *        (OSCCAL1).
+   *
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getInternal32kHzOscillatorCalibration() {
+    INIT();
+    return Features::getInternal32kHzOscillatorCalibration();
+  }
+#endif
+
+#ifdef FEATURE_TEMPERATURE_SENSOR_GAIN_CALIBRATION
+  /*!
+   * @brief Get the factory calibration (gain) of the temperature sensor.
+   *
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getTemperatureSensorGainCalibration() {
+    INIT();
+    return Features::getTemperatureSensorGainCalibration();
+  }
+#endif
+
+#ifdef FEATURE_TEMPERATURE_SENSOR_OFFSET_CALIBRATION
+  /*!
+   * @brief Get the factory calibration (offset) of the temperature sensor.
+   *
+   * @return    Calibration value as an unsigned char.
+   */
+  static uint8_t getTemperatureSensorOffsetCalibration() {
+    INIT();
+    return Features::getTemperatureSensorOffsetCalibration();
+  }
+#endif
 
   /*!
    * @brief Writing a summary of the signature of the chip into a string.
@@ -128,4 +190,4 @@ public:
   static String getSummary();
 };
 
-#endif // SIGNATURE_ROW_SIGNATURE_ROW_HPP
+#endif // SIGNATURE_SIGNATURE_HPP
