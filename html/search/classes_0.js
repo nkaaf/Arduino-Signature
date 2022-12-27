@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['signature',['Signature',['../class_signature.html',1,'']]]
+  ['features',['Features',['../class_features.html',1,'']]]
 ];

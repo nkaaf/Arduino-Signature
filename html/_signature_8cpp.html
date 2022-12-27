@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Arduino Signature Library
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">2.0.0</span>
    </div>
    <div id="projectbrief">Retrieving signature information from avr microprocessors</div>
   </td>
@@ -72,25 +72,22 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_signature_8hpp_source.html">Signature.hpp</a>&quot;</code><br />
 <code>#include &lt;avr/boot.h&gt;</code><br />
+<code>#include &lt;Print.h&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ae856023485b61d5b2943a3c1507a8167"><td class="memItemLeft" align="right" valign="top"><a id="ae856023485b61d5b2943a3c1507a8167"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#ae856023485b61d5b2943a3c1507a8167">DEVICE_SIG_BYTE_1</a>&#160;&#160;&#160;0x0000</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#ae856023485b61d5b2943a3c1507a8167">DEVICE_SIG_BYTE_1</a>&#160;&#160;&#160;0x00</td></tr>
 <tr class="memdesc:ae856023485b61d5b2943a3c1507a8167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address of first signature byte. <br /></td></tr>
 <tr class="separator:ae856023485b61d5b2943a3c1507a8167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a867e195ab8fd6f0b2f6f34d3d115c31f"><td class="memItemLeft" align="right" valign="top"><a id="a867e195ab8fd6f0b2f6f34d3d115c31f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#a867e195ab8fd6f0b2f6f34d3d115c31f">DEVICE_SIG_BYTE_2</a>&#160;&#160;&#160;0x0002</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#a867e195ab8fd6f0b2f6f34d3d115c31f">DEVICE_SIG_BYTE_2</a>&#160;&#160;&#160;0x02</td></tr>
 <tr class="memdesc:a867e195ab8fd6f0b2f6f34d3d115c31f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address of second signature byte. <br /></td></tr>
 <tr class="separator:a867e195ab8fd6f0b2f6f34d3d115c31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4c63b75b9a88540b65202a827918015"><td class="memItemLeft" align="right" valign="top"><a id="ad4c63b75b9a88540b65202a827918015"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#ad4c63b75b9a88540b65202a827918015">DEVICE_SIG_BYTE_3</a>&#160;&#160;&#160;0x0004</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#ad4c63b75b9a88540b65202a827918015">DEVICE_SIG_BYTE_3</a>&#160;&#160;&#160;0x04</td></tr>
 <tr class="memdesc:ad4c63b75b9a88540b65202a827918015"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address of third signature byte. <br /></td></tr>
 <tr class="separator:ad4c63b75b9a88540b65202a827918015"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7ff48dfd4fb708c0d00f1350a9a1408"><td class="memItemLeft" align="right" valign="top"><a id="ac7ff48dfd4fb708c0d00f1350a9a1408"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_signature_8cpp.html#ac7ff48dfd4fb708c0d00f1350a9a1408">RC_OSCILLATOR_CALIBRATION_BYTE</a>&#160;&#160;&#160;0x0001</td></tr>
-<tr class="memdesc:ac7ff48dfd4fb708c0d00f1350a9a1408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address of RC oscillator calibration byte. <br /></td></tr>
-<tr class="separator:ac7ff48dfd4fb708c0d00f1350a9a1408"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file is part of the <a class="el" href="class_signature.html" title="Class representing the signature of the microcontroller. ">Signature</a> library. It gives easy access to the signature of AVR microcontrollers. The library contains functions that provides the information of the signature bytes.</p>

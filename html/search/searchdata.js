@@ -1,10 +1,10 @@
 var indexSectionsWithContent =
 {
-  0: "dgrs",
-  1: "s",
-  2: "s",
-  3: "g",
-  4: "dr"
+  0: "dfgis",
+  1: "fs",
+  2: "fs",
+  3: "gi",
+  4: "d"
 };
 
 var indexSectionNames =
