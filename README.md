@@ -9,9 +9,23 @@ Documentation: [https://nkaaf.github.io/Arduino-Signature/](https://nkaaf.github
 
 https://semver.org/ compliant
 
+## Implemented
+* ATtiny828
+* ATmega48A
+* ATmega48PA
+* ATmega88A
+* ATmega88PA
+* ATmega168A
+* ATmega168PA
+* ATmega328
+* ATmega328P
+
+### Tested
+* ATmega328P
+
 ## Arduino Library References
 
 * https://docs.arduino.cc/learn/contributions/arduino-writing-style-guide
 * https://docs.arduino.cc/learn/contributions/arduino-library-style-guide
-* https://arduino.github.io/arduino-cli/0.27/library-specification/
-* https://arduino.github.io/arduino-cli/0.27/sketch-specification/
+* https://arduino.github.io/arduino-cli/0.29/library-specification/
+* https://arduino.github.io/arduino-cli/0.29/sketch-specification/

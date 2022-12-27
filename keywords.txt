@@ -15,4 +15,10 @@ Signature	KEYWORD1
 getSignature	KEYWORD2
 getChipName	KEYWORD2
 getRcOscillatorCalibration	KEYWORD2
+getInternal8MHzOscillatorCalibration    KEYWORD2
+getOscillatorTemperatureCalibrationA    KEYWORD2
+getOscillatorTemperatureCalibrationB    KEYWORD2
+getInternal32kHzOscillatorCalibration   KEYWORD2
+getTemperatureSensorGainCalibration KEYWORD2
+getTemperatureSensorOffsetCalibration   KEYWORD2
 getSummary	KEYWORD2
