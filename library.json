@@ -1,0 +1,47 @@
+{
+  "name": "Signature",
+  "version": "2.0.0",
+  "description": "Processing AVR microcontrollers signature. This library gives easy access to the signature of AVR microcontrollers.",
+  "keywords": [
+    "atmel",
+    "avr",
+    "arduino",
+    "signature",
+    "calibration"
+  ],
+  "homepage": "https://nkaaf.github.io/Arduino-Signature",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nkaaf/Arduino-Signature"
+  },
+  "authors": {
+    "name": "Niklas Kaaf",
+    "email": "nkaaf@protonmail.com",
+    "url": "https://github.com/nkaaf",
+    "maintainer": true
+  },
+  "license": "LGPL-2.1-only",
+  "frameworks": "arduino",
+  "platforms": [
+    "atmelavr",
+    "atmelmegaavr"
+  ],
+  "headers": "Signature.hpp",
+  "examples": [
+    {
+      "name": "ReadSignature",
+      "base": "examples/Signature/ReadSignature",
+      "files": [
+        "ReadSignature.ino"
+      ]
+    }
+  ],
+  "export": {
+    "import": [
+      "examples/*",
+      "src/*",
+      "library.json",
+      "LICENSE"
+    ]
+  }
+}
