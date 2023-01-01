@@ -5,11 +5,13 @@
  *
  * @section intro_sec Introduction
  *
- * This is the documentation for the Signature Library for the Arduino
- * platform. Because of the independence of Arduino libraries, it could be
- * theoretically used for every C/C++ program. It gives easy access to the
- * signature of AVR microcontrollers. The library contains functions that
- * provides the information of the signature bytes.
+ * This is the documentation for the Signature Library for the Arduino platform.
+ * This library handles a feature of the microcontrollers from the AVR series of
+ * Microchip/Atmel. Therefore this library can only be used for projects on
+ * these controllers. But it does not depend on any Arduino-specific libraries
+ * so it could be used in any project build for AVR microcontrollers.
+ * It extends the arduino ecosystem with easy way of reading the so called
+ * "signature" of these controllers. It sometimes stores factory calibrations.
  *
  *
  * @section author Author
@@ -22,7 +24,7 @@
  *
  * This file is part of the Signature library.
  *
- * Copyright (C) 2022  Niklas Kaaf
+ * Copyright (C) 2022-2023  Niklas Kaaf
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public

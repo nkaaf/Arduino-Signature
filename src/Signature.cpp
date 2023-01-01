@@ -5,7 +5,7 @@
  * signature of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
- * Copyright (C) 2022  Niklas Kaaf
+ * Copyright (C) 2022-2023  Niklas Kaaf
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
