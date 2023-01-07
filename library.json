@@ -1,6 +1,6 @@
 {
   "name": "Signature",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Processing AVR microcontrollers signature. This library gives easy access to the signature of AVR microcontrollers.",
   "keywords": [
     "atmel",
@@ -37,7 +37,7 @@
     }
   ],
   "export": {
-    "import": [
+    "include": [
       "examples/*",
       "src/*",
       "library.json",
