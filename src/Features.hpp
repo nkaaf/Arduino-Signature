@@ -5,7 +5,7 @@
  * signature of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
- * Copyright (C) 2022  Niklas Kaaf
+ * Copyright (C) 2022-2023  Niklas Kaaf
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,7 +26,17 @@
 #ifndef SIGNATURE_FEATURES_H
 #define SIGNATURE_FEATURES_H
 
+#include <stdint.h>
+
+#if defined(ARDUINO)
 #include <WString.h>
+#else
+#if not(defined(CHAR_PTR_STRING))
+#define CHAR_PTR_STRING
+/** Type definition for an string. */
+typedef unsigned char *String;
+#endif
+#endif
 
 #if defined(__AVR_ATmega48A__) || defined(__AVR_ATmega48PA__) ||               \
     defined(__AVR_ATmega88A__) || defined(__AVR_ATmega88PA__) ||               \
@@ -176,6 +186,8 @@ public:
    *        signature of the microcontroller.
    *
    * @return    A string containing a summary of the additional information.
+   * @note  If NOT using the arduino framework, the returned pointer has to be
+   *        free'd with free() in order to prevent memory leaks.
    */
   static String getSummary();
 };

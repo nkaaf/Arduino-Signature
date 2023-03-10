@@ -5,7 +5,7 @@
  * signature of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
- * Copyright (C) 2022  Niklas Kaaf
+ * Copyright (C) 2022-2023  Niklas Kaaf
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,11 +23,31 @@
  * USA
  */
 
+#define FEATURE_RC_OSCILLATOR_CALIBRATION
+
 #include "Features.hpp"
+
+// Fix until https://github.com/avrdudes/avr-libc/issues/907 is fixed
+#if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny25__) ||                  \
+    defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny45__) ||                  \
+    defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__) ||                  \
+    defined(__AVR_ATtiny441__) || defined(__AVR_ATtiny828__) ||                \
+    defined(__AVR_ATtiny841__) || defined(__AVR_ATtiny1634__) ||               \
+    defined(__AVR_ATtiny4313__)
+#define SIGRD RSIG
+#endif
 
 #include <avr/boot.h>
 
+#if defined(CHAR_PTR_STRING)
+#include <avr/pgmspace.h>
+#define F(s) ((String)PSTR(s))
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#else
 #include <Print.h>
+#endif
 
 #ifdef FEATURE_RC_OSCILLATOR_CALIBRATION
 uint8_t Features::rcOscillatorCalibration = 0;
@@ -103,36 +123,123 @@ void Features::INIT() {
 }
 
 String Features::getSummary() {
+#if defined(CHAR_PTR_STRING)
+  size_t size = 0;
+#else
   String summary = F("");
+#endif
 #ifdef FEATURE_RC_OSCILLATOR_CALIBRATION
-  summary += F("\n\tRC Oscillator Calibration: 0x");
+  String stringRCOscillatorCalibration = F("\n\tRC Oscillator Calibration: 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringRCOscillatorCalibration,
+                   rcOscillatorCalibration);
+#else
+  summary += stringRCOscillatorCalibration;
   summary += String(rcOscillatorCalibration, HEX);
 #endif
+#endif
 #ifdef FEATURE_INTERNAL_8MHZ_OSCILLATOR_CALIBRATION
-  summary += F("\n\tInternal 8MHz Oscillator Calibration (OSCCAL0): 0x");
+  String stringInternal8MHZOscillatorCalibration =
+      F("\n\tInternal 8MHz Oscillator Calibration (OSCCAL0): 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringInternal8MHZOscillatorCalibration,
+                   internal8MHzOscillatorCalibration);
+#else
+  summary += stringInternal8MHZOscillatorCalibration;
   summary += String(internal8MHzOscillatorCalibration, HEX);
+#endif
 #endif
 #ifdef FEATURE_OSCILLATOR_TEMPERATURE_CALIBRATION_A
-  summary +=
+  String stringOscillatorTemperatureCalibrationA =
       F("\n\tOscillator Temperature Calibration Register A (OSCTCAL0A): 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringOscillatorTemperatureCalibrationA,
+                   oscillatorTemperatureCalibrationA);
+#else
+  summary += stringOscillatorTemperatureCalibrationA;
   summary += String(oscillatorTemperatureCalibrationA, HEX);
 #endif
+#endif
 #ifdef FEATURE_OSCILLATOR_TEMPERATURE_CALIBRATION_B
-  summary +=
+  String stringOscillatorTemperatureCalibrationB =
       F("\n\tOscillator Temperature Calibration Register B (OSCTCAL0B): 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringOscillatorTemperatureCalibrationB,
+                   oscillatorTemperatureCalibrationB);
+#else
+  summary += stringOscillatorTemperatureCalibrationB;
   summary += String(oscillatorTemperatureCalibrationB, HEX);
 #endif
+#endif
 #ifdef FEATURE_INTERNAL_32KHZ_OSCILLATOR_CALIBRATION
-  summary += F("\n\tInternal 32kHz Oscillator Calibration (OSCCAL1): 0x");
-  summary += String(internal8MHzOscillatorCalibration, HEX);
+  String stringInternal32KHZOscillatorCalibration =
+      F("\n\tInternal 32kHz Oscillator Calibration (OSCCAL1): 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringInternal32KHZOscillatorCalibration,
+                   internal32kHzOscillatorCalibration);
+#else
+  summary += stringInternal32KHZOscillatorCalibration;
+  summary += String(internal32kHzOscillatorCalibration, HEX);
+#endif
 #endif
 #ifdef FEATURE_TEMPERATURE_SENSOR_GAIN_CALIBRATION
-  summary += F("\n\tTemperature Sensor Gain Calibration: 0x");
+  String stringTemperatureSensorGainCalibration =
+      F("\n\tTemperature Sensor Gain Calibration: 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringTemperatureSensorGainCalibration,
+                   temperatureSensorGainCalibration);
+#else
+  summary += stringTemperatureSensorGainCalibration;
   summary += String(temperatureSensorGainCalibration, HEX);
 #endif
+#endif
 #ifdef FEATURE_TEMPERATURE_SENSOR_OFFSET_CALIBRATION
-  summary += F("\n\tTemperature Sensor Offset Calibration: 0x");
+  String stringTemperatureSensorOffsetCalibration =
+      F("\n\tTemperature Sensor Offset Calibration: 0x");
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%s%X", stringTemperatureSensorOffsetCalibration,
+                   temperatureSensorOffsetCalibration);
+#else
+  summary += stringTemperatureSensorOffsetCalibration;
   summary += String(temperatureSensorOffsetCalibration, HEX);
+#endif
+#endif
+#if defined(CHAR_PTR_STRING)
+  auto summary = (String)malloc(sizeof(unsigned char) * size + 1);
+#ifdef FEATURE_RC_OSCILLATOR_CALIBRATION
+  sprintf((char *)summary, "%s%s%X", summary, stringRCOscillatorCalibration,
+          rcOscillatorCalibration);
+#endif
+#ifdef FEATURE_INTERNAL_8MHZ_OSCILLATOR_CALIBRATION
+  sprintf((char *)summary, "%s%s%X", summary,
+          stringInternal8MHZOscillatorCalibration,
+          internal8MHzOscillatorCalibration);
+#endif
+#ifdef FEATURE_OSCILLATOR_TEMPERATURE_CALIBRATION_A
+  sprintf((char *)summary, "%s%s%X", summary,
+          stringOscillatorTemperatureCalibrationA,
+          oscillatorTemperatureCalibrationA);
+#endif
+#ifdef FEATURE_OSCILLATOR_TEMPERATURE_CALIBRATION_B
+  sprintf((char *)summary, "%s%s%X", summary,
+          stringOscillatorTemperatureCalibrationB,
+          oscillatorTemperatureCalibrationB);
+#endif
+#ifdef FEATURE_INTERNAL_32KHZ_OSCILLATOR_CALIBRATION
+  sprintf((char *)summary, "%s%s%X", summary,
+          stringInternal32KHZOscillatorCalibration,
+          internal32kHzOscillatorCalibration);
+#endif
+#ifdef FEATURE_TEMPERATURE_SENSOR_GAIN_CALIBRATION
+  sprintf((char *)summary, "%s%s%X", summary,
+          stringTemperatureSensorGainCalibration,
+          temperatureSensorGainCalibration);
+#endif
+#ifdef FEATURE_TEMPERATURE_SENSOR_OFFSET_CALIBRATION
+  sprintf((char *)summary, "%s%s%X", summary,
+          stringTemperatureSensorOffsetCalibration,
+          temperatureSensorOffsetCalibration);
+#endif
 #endif
   return summary;
 }

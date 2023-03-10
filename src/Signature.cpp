@@ -5,7 +5,7 @@
  * signature of AVR microcontrollers. The library contains functions that
  * provides the information of the signature bytes.
  *
- * Copyright (C) 2022  Niklas Kaaf
+ * Copyright (C) 2022-2023  Niklas Kaaf
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,9 +25,27 @@
 
 #include "Signature.hpp"
 
+// Fix until https://github.com/avrdudes/avr-libc/issues/907 is fixed
+#if defined(__AVR_ATtiny24__) || defined(__AVR_ATtiny25__) ||                  \
+    defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny45__) ||                  \
+    defined(__AVR_ATtiny84__) || defined(__AVR_ATtiny85__) ||                  \
+    defined(__AVR_ATtiny441__) || defined(__AVR_ATtiny828__) ||                \
+    defined(__AVR_ATtiny841__) || defined(__AVR_ATtiny1634__) ||               \
+    defined(__AVR_ATtiny4313__)
+#define SIGRD RSIG
+#endif
+
 #include <avr/boot.h>
 
+#if defined(CHAR_PTR_STRING)
+#include <avr/pgmspace.h>
+#define F(s) ((String)PSTR(s))
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#else
 #include <Print.h>
+#endif
 
 Signature::signature_t Signature::signature = {};
 bool Signature::INIT_STATUS = false;
@@ -65,27 +83,102 @@ void Signature::INIT() {
 }
 
 String Signature::getSignatureString() {
-  String sigStr = F("0x");
+  String sigStr = F("");
+  String sigStrBegin = F("0x");
+  String leadingZero = F("0");
+#if defined(CHAR_PTR_STRING)
+  size_t size = strlen((char *)sigStrBegin);
+#else
+  sigStr += sigStrBegin;
+#endif
 
   if (signature.sig1 < 16) {
-    sigStr += F("0");
+#if defined(CHAR_PTR_STRING)
+    size += strlen((char *)leadingZero);
+#else
+    sigStr += leadingZero;
+#endif
   }
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%X", signature.sig1);
+#else
   sigStr += String(signature.sig1, HEX);
+#endif
 
   if (signature.sig2 < 16) {
-    sigStr += F("0");
+#if defined(CHAR_PTR_STRING)
+    size += strlen((char *)leadingZero);
+#else
+    sigStr += leadingZero;
+#endif
   }
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%X", signature.sig2);
+#else
   sigStr += String(signature.sig2, HEX);
+#endif
 
   if (signature.sig3 < 16) {
-    sigStr += F("0");
+#if defined(CHAR_PTR_STRING)
+    size += strlen((char *)leadingZero);
+#else
+    sigStr += leadingZero;
+#endif
   }
+#if defined(CHAR_PTR_STRING)
+  size += snprintf(nullptr, 0, "%X", signature.sig3);
+#else
   sigStr += String(signature.sig3, HEX);
+#endif
+
+#if defined(CHAR_PTR_STRING)
+  sigStr = (String)malloc(sizeof(unsigned char) * size + 1);
+  sprintf((char *)sigStr, "%s", sigStrBegin);
+  if (signature.sig1 < 16) {
+    sprintf((char *)sigStr, "%s%s", sigStr, leadingZero);
+  }
+  sprintf((char *)sigStr, "%s%X", sigStr, signature.sig1);
+  if (signature.sig2 < 16) {
+    sprintf((char *)sigStr, "%s%s", sigStr, leadingZero);
+  }
+  sprintf((char *)sigStr, "%s%X", sigStr, signature.sig2);
+  if (signature.sig3 < 16) {
+    sprintf((char *)sigStr, "%s%s", sigStr, leadingZero);
+  }
+  sprintf((char *)sigStr, "%s%X", sigStr, signature.sig3);
+#endif
   return sigStr;
 }
 
 String Signature::getSummary() {
   INIT();
+
+#if defined(CHAR_PTR_STRING)
+  String chipName = getChipName();
+  String signatureString = getSignatureString();
+  String featuresSummary = Features::getSummary();
+  size_t size = snprintf(nullptr, 0,
+                         "Signature Information:\n"
+                         "\tBoard: "
+                         "%s"
+                         " ("
+                         "%s"
+                         ")"
+                         "%s",
+                         chipName, signatureString, featuresSummary);
+  auto summary = (String)malloc(sizeof(unsigned char) * size + 1);
+  sprintf((char *)summary,
+          "Signature Information:\n"
+          "\tBoard: "
+          "%s"
+          " ("
+          "%s"
+          ")"
+          "%s",
+          chipName, signatureString, featuresSummary);
+  free(signatureString);
+  free(featuresSummary);
+#else
 
   String summary = F("Signature Information:\n");
   summary += F("\tBoard: ");
@@ -94,6 +187,7 @@ String Signature::getSummary() {
   summary += getSignatureString();
   summary += F(")");
   summary += Features::getSummary();
+#endif
   return summary;
 }
 

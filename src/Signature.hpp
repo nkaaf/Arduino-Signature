@@ -22,7 +22,7 @@
  *
  * This file is part of the Signature library.
  *
- * Copyright (C) 2022  Niklas Kaaf
+ * Copyright (C) 2022-2023  Niklas Kaaf
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,8 +44,6 @@
 #define SIGNATURE_SIGNATURE_HPP
 
 #include "Features.hpp"
-
-#include <WString.h>
 
 /*!
  * @brief   Class representing the signature of the microcontroller.
@@ -71,6 +69,8 @@ private:
    *
    * @return    A string of the signature formatted as a hex value (with leading
    *            '0x').
+   * @note  If NOT using the arduino framework, the returned pointer has to be
+   *        free'd with free() in order to prevent memory leaks.
    */
   static String getSignatureString();
 
@@ -80,6 +80,8 @@ public:
    *
    * @return    A string of the signature formatted as a hex value (with leading
    *            '0x').
+   * @note  If NOT using the arduino framework, the returned pointer has to be
+   *        free'd with free() in order to prevent memory leaks.
    */
   static String getSignature() {
     INIT();
@@ -186,6 +188,8 @@ public:
    *        debugging or logging intents.
    *
    * @return    A string containing a summary of the signature.
+   * @note  If NOT using the arduino framework, the returned pointer has to be
+   *        free'd with free() in order to prevent memory leaks.
    */
   static String getSummary();
 };
